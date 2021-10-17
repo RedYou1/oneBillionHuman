@@ -1,13 +1,71 @@
-extends ColorRect
+extends Node2D
 
-var h
+var jeu
+var size = Vector2(300,500)
+var calcsize = true
 
 func _ready():
-	h = get_node("VBoxContainer")
+	jeu = get_tree().root.get_node("Jeu")
+	calcsize = jeu.get_node("block") != self
+
 
 func exe():
-	for i in h.get_children():
+	for i in get_children():
 		i.exe()
 
-func add(node):
-	h.add_child(node)
+func add(child):
+	add_child(child)
+	
+	jeu.tree.replace()
+
+func try_add(command):
+	var pos = get_global_mouse_position()
+	if not calcsize:
+		#check if mouse is in the square
+		if pos.x < position.x or pos.x > position.x+size.x or pos.y < position.y or pos.y > position.y + size.y:
+			return
+	
+	pos = pos.y - position.y
+	for i in range(get_child_count()):
+		var e = get_child(i)
+		pos -= e.size.y
+		if pos < 0:
+			if e.has_method("try_add"):
+				e.try_add(command)
+			else:
+				var t = command.instance()
+				add_child_below_node(e,t)
+				jeu.tree.replace()
+			return
+	
+	var t = command.instance()
+	add_child(t)
+	jeu.tree.replace()
+
+func replace():
+	if get_child_count() > 0:
+		get_child(0).calcsize()
+		
+		get_child(0).position = Vector2()
+		for i in range(1,get_child_count()):
+			get_child(i).calcsize()
+			
+			var t = get_child(i-1)
+			get_child(i).position = t.position + Vector2(0,t.size.y)
+
+func calcsize():
+	if calcsize:
+		replace()
+		size = Vector2()
+		for i in range(get_child_count()):
+			var t = get_child(i)
+			t.calcsize()
+			if t.size.x > size.x:
+				size.x = t.size.x
+			size.y += t.size.y
+		if size.x == 0:
+			size = Vector2(300,20)
+		update()
+
+func _draw():
+	draw_rect(Rect2(Vector2(),size),Color(1,0,0))

@@ -9,7 +9,7 @@ const commands = {
 }
 
 func _ready():
-	tree = get_node("HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer")
+	tree = get_node("block")
 	
 
 
