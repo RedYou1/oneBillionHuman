@@ -23,24 +23,34 @@ func try_add(command):
 	if not calcsize:
 		#check if mouse is in the square
 		if pos.x < position.x or pos.x > position.x+size.x or pos.y < position.y or pos.y > position.y + size.y:
-			return
+			return null
 	
 	pos = pos.y - position.y
+	
+	if get_child_count() == 0 or pos < get_child(0).position.y:
+		var t = command.instance()
+		add_child(t)
+		move_child(t,0)
+		jeu.tree.replace()
+		return t
+	
 	for i in range(get_child_count()):
 		var e = get_child(i)
 		pos -= e.size.y
 		if pos < 0:
 			if e.has_method("try_add"):
-				e.try_add(command)
+				return e.try_add(command)
 			else:
 				var t = command.instance()
 				add_child_below_node(e,t)
 				jeu.tree.replace()
-			return
+				return t
+			return null
 	
 	var t = command.instance()
 	add_child(t)
 	jeu.tree.replace()
+	return t
 
 func replace():
 	if get_child_count() > 0:
