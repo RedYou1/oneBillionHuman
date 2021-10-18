@@ -22,7 +22,7 @@ func try_add(command):
 	var pos = get_global_mouse_position()
 	if not calcsize:
 		#check if mouse is in the square
-		if pos.x < position.x or pos.x > position.x+size.x or pos.y < position.y or pos.y > position.y + size.y:
+		if pos.x < position.x or pos.x > position.x+size.x:
 			return null
 	
 	pos = pos.y - position.y

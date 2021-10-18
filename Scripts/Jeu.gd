@@ -26,5 +26,5 @@ func _on_play_pressed():
 
 
 func _on_erase_pressed():
-	if has_node("Selector"):
-		remove_child(get_node("Selector"))
+	for e in tree.get_children():
+		e.queue_free()
