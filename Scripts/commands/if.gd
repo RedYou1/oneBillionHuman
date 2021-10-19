@@ -5,14 +5,19 @@ var exe
 
 var size
 
+signal end(result)
+
 func _ready():
 	cond = get_node("condition")
 	exe = get_node("block")
 	calcsize()
 
 func exe(player):
-	if cond.exe(player):
+	cond.exe(player)
+	if yield(cond,"end"):
 		exe.exe(player)
+		yield(exe,"end")
+	emit_signal("end",null)
 
 func add(node):
 	exe.add(node)

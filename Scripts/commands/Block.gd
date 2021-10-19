@@ -4,6 +4,8 @@ var jeu
 var size = Vector2(350,500)
 var calcsize = true
 
+signal end(result)
+
 func _ready():
 	jeu = get_tree().root.get_node("Jeu")
 	calcsize = jeu.get_node("block") != self
@@ -12,6 +14,8 @@ func _ready():
 func exe(player):
 	for i in get_children():
 		i.exe(player)
+		yield(i,"end")
+	emit_signal("end",null)
 
 func add(child):
 	add_child(child)

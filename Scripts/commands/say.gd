@@ -4,12 +4,16 @@ var say
 
 var size = Vector2()
 
+signal end(result)
+
 func _ready():
 	say = get_node("OptionButton")
 	calcsize()
 
 func exe(player):
-	print(say.get_item_text(say.get_selected_id()))
+	var t = say.get_item_text(say.get_selected_id())
+	print(t)
+	emit_signal("end",t)
 
 func calcsize():
 	size = Vector2(82+say.rect_size.x,56)

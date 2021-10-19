@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://font/Roboto-Light.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scripts/commands/wait.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.192157, 0.192157, 0.192157, 1 )
+
+[node name="wait" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 4.0
+margin_top = 5.0
+margin_right = 70.0
+margin_bottom = 43.0
+custom_fonts/font = SubResource( 1 )
+text = "WAIT:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_left = 90.0
+margin_right = 196.0
+margin_bottom = 56.0
+custom_styles/normal = SubResource( 2 )
+text = "1"
+placeholder_text = "number of sec"
+placeholder_alpha = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="text_changed" from="LineEdit" to="." method="_on_LineEdit_text_changed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
