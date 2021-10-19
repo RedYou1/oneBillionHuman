@@ -1,7 +1,7 @@
 extends Node2D
 
 var jeu
-var size = Vector2(300,500)
+var size = Vector2(350,500)
 var calcsize = true
 
 func _ready():
@@ -74,7 +74,7 @@ func calcsize():
 				size.x = t.size.x
 			size.y += t.size.y
 		if size.x == 0:
-			size = Vector2(300,20)
+			size = Vector2(350,20)
 		update()
 
 func _draw():
