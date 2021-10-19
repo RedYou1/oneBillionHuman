@@ -1,28 +1,22 @@
 extends Node
 
 var tree
+var players
 
 const commands = {
 	"say":preload("res://Scenes/commands/say.tscn"),
-	"if":preload("res://Scenes/commands/if.tscn"),
-	"var":preload("res://Scenes/commands/var.tscn")
+	"if":preload("res://Scenes/commands/if.tscn")
 }
 
 func _ready():
 	tree = get_node("block")
-	
-
-
-
-func _on_print_play_pressed():
-	var t = commands["if"].instance()
-	t.name = str(tree.get_child_count())
-	tree.add(t)
+	players = get_node("players")
 
 
 func _on_play_pressed():
 	Tout.vars = {}
-	tree.exe()
+	for player in players.get_children():
+		tree.exe(player)
 
 
 func _on_erase_pressed():

@@ -10,9 +10,9 @@ func _ready():
 	exe = get_node("block")
 	calcsize()
 
-func exe():
-	if cond.exe():
-		exe.exe()
+func exe(player):
+	if cond.exe(player):
+		exe.exe(player)
 
 func add(node):
 	exe.add(node)
@@ -31,6 +31,6 @@ func _draw():
 func calcsize():
 	exe.calcsize()
 	
-	size = Vector2(320,56) + Vector2(0,exe.size.y)
+	size = Vector2(380,100) + Vector2(0,exe.size.y)
 	
 	update()

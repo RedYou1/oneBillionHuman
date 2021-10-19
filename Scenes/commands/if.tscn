@@ -27,4 +27,4 @@ __meta__ = {
 position = Vector2( 36, 0 )
 
 [node name="block" parent="." instance=ExtResource( 3 )]
-position = Vector2( 20, 50 )
+position = Vector2( 20, 100 )

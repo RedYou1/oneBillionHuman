@@ -6,7 +6,7 @@ func init(command):
 	var t = command.instance()
 	add_child(t)
 
-func exe():
+func exe(player):
 	pass
 
 func _draw():

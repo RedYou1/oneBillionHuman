@@ -9,10 +9,18 @@ func _ready():
 	calcsize()
 
 func exe(player):
-	print(say.get_item_text(say.get_selected_id()))
+	var t = say.get_item_text(say.get_selected_id())
+	if t == "UP":
+		player.position.y -= 50
+	elif t == "DOWN":
+		player.position.y += 50
+	elif t == "LEFT":
+		player.position.x -= 50
+	elif t == "RIGHT":
+		player.position.x += 50
 
 func calcsize():
-	size = Vector2(82+say.rect_size.x,56)
+	size = Vector2(96+say.rect_size.x,56)
 	update()
 
 func _draw():

@@ -9,9 +9,9 @@ func _ready():
 	calcsize = jeu.get_node("block") != self
 
 
-func exe():
+func exe(player):
 	for i in get_children():
-		i.exe()
+		i.exe(player)
 
 func add(child):
 	add_child(child)
