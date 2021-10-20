@@ -1,14 +1,12 @@
 extends Node2D
 
-var jeu
 var size = Vector2(350,500)
-var calcsize = true
+var scroll
 
 signal end(result)
 
 func _ready():
-	jeu = get_tree().root.get_node("Jeu")
-	calcsize = jeu.get_node("block") != self
+	scroll = get_tree().root.get_node("Jeu/HBoxContainer/VBoxContainer/ScrollContainer")
 
 
 func exe(player):
@@ -20,22 +18,23 @@ func exe(player):
 func add(child):
 	add_child(child)
 	
-	jeu.tree.replace()
+	Tout.jeu.tree.calcsize()
 
 func try_add(command):
 	var pos = get_global_mouse_position()
-	if not calcsize:
+	
+	if Tout.jeu.tree == self:
 		#check if mouse is in the square
-		if pos.x < position.x or pos.x > position.x+size.x:
+		if pos.x < scroll.rect_position.x or pos.x > scroll.rect_position.x+scroll.rect_size.x:
 			return null
 	
-	pos = pos.y - position.y
+	pos = pos.y - position.y - scroll.scroll_vertical
 	
 	if get_child_count() == 0 or pos < get_child(0).position.y:
 		var t = command.instance()
 		add_child(t)
 		move_child(t,0)
-		jeu.tree.replace()
+		Tout.jeu.tree.calcsize()
 		return t
 	
 	for i in range(get_child_count()):
@@ -47,13 +46,13 @@ func try_add(command):
 			else:
 				var t = command.instance()
 				add_child_below_node(e,t)
-				jeu.tree.replace()
+				Tout.jeu.tree.calcsize()
 				return t
 			return null
 	
 	var t = command.instance()
 	add_child(t)
-	jeu.tree.replace()
+	Tout.jeu.tree.calcsize()
 	return t
 
 func replace():
@@ -68,18 +67,30 @@ func replace():
 			get_child(i).position = t.position + Vector2(0,t.size.y)
 
 func calcsize():
-	if calcsize:
-		replace()
-		size = Vector2()
-		for i in range(get_child_count()):
-			var t = get_child(i)
-			t.calcsize()
-			if t.size.x > size.x:
-				size.x = t.size.x
-			size.y += t.size.y
-		if size.x == 0:
-			size = Vector2(350,20)
-		update()
+	replace()
+	size = Vector2()
+	for i in range(get_child_count()):
+		var t = get_child(i)
+		t.calcsize()
+		if t.size.x > size.x:
+			size.x = t.size.x
+		size.y += t.size.y
+	if size.x == 0:
+		size = Vector2(350,20)
+	
+	if Tout.jeu.tree == self:
+		if size.x < 350:
+			size.x = 350
+		if size.y < 500:
+			size.y = 500
+		var a = get_parent()
+		var b = a.get_parent()
+		b.rect_min_size = size
+		b.rect_size = size
+		size *= float(Tout.jeu.zoom)/100
+		a.size = size
+	
+	update()
 
 func _draw():
 	draw_rect(Rect2(Vector2(),size),Color(1,0,0))

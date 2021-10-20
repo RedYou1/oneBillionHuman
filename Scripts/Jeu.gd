@@ -2,6 +2,7 @@ extends Node
 
 var tree
 var players
+var zoom = 100
 
 const commands = {
 	"say":preload("res://Scenes/commands/say.tscn"),
@@ -9,9 +10,8 @@ const commands = {
 }
 
 func _ready():
-	tree = get_node("block")
+	tree = get_node("HBoxContainer/VBoxContainer/ScrollContainer/ViewportContainer/Viewport/block")
 	players = get_node("players")
-
 
 func _on_play_pressed():
 	Tout.vars = {}
@@ -22,3 +22,8 @@ func _on_play_pressed():
 func _on_erase_pressed():
 	for e in tree.get_children():
 		e.queue_free()
+
+
+func _on_HSlider_value_changed(value):
+	zoom = value
+	tree.calcsize()
