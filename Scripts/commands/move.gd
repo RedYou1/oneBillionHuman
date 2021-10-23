@@ -14,13 +14,13 @@ func _ready():
 func exe(player):
 	var t = say.get_item_text(say.get_selected_id())
 	if t == "UP":
-		player.position.y -= 50
+		player.move_and_collide(Vector2(0,-50))
 	elif t == "DOWN":
-		player.position.y += 50
+		player.move_and_collide(Vector2(0,50))
 	elif t == "LEFT":
-		player.position.x -= 50
+		player.move_and_collide(Vector2(-50,0))
 	elif t == "RIGHT":
-		player.position.x += 50
+		player.move_and_collide(Vector2(50,0))
 	ended[player.name] = t
 	emit_signal("end")
 

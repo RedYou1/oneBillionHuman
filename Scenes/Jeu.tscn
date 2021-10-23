@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Jeu.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/commands/Block.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scenes/commands/move.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/commands/while.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/commands/wait.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/wall.tscn" type="PackedScene" id=9]
 
 [node name="Jeu" type="Node"]
 script = ExtResource( 1 )
@@ -121,6 +122,11 @@ position = Vector2( 600, 350 )
 
 [node name="Player4" parent="players" instance=ExtResource( 5 )]
 position = Vector2( 650, 350 )
+
+[node name="map" type="Node" parent="."]
+
+[node name="KinematicBody2D" parent="map" instance=ExtResource( 9 )]
+position = Vector2( 650, 200 )
 
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer2/erase" to="." method="_on_erase_pressed"]
