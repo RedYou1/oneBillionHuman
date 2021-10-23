@@ -5,7 +5,8 @@ var exe
 
 var size
 
-signal end(result)
+signal end()
+var ended = {}
 
 func _ready():
 	cond = get_node("condition")
@@ -13,12 +14,21 @@ func _ready():
 	calcsize()
 
 func exe(player):
-	cond.exe(player)
-	while yield(cond,"end"):
+	while condexe(player):
 		exe.exe(player)
-		yield(exe,"end")
-		cond.exe(player)
-	emit_signal("end",null)
+		while not exe.ended.has(player.name):
+			yield(exe,"end")
+		exe.ended.erase(player.name)
+	ended[player.name] = null
+	emit_signal("end")
+
+func condexe(player):
+	cond.exe(player)
+	while not cond.ended.has(player.name):
+		yield(cond,"end")
+	var a = cond.ended[player.name]
+	cond.ended.erase(player.name)
+	return a
 
 func add(node):
 	exe.add(node)

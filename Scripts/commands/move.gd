@@ -4,7 +4,8 @@ var say
 
 var size = Vector2()
 
-signal end(result)
+signal end()
+var ended = {}
 
 func _ready():
 	say = get_node("OptionButton")
@@ -20,7 +21,8 @@ func exe(player):
 		player.position.x -= 50
 	elif t == "RIGHT":
 		player.position.x += 50
-	emit_signal("end",t)
+	ended[player.name] = t
+	emit_signal("end")
 
 func calcsize():
 	size = Vector2(96+say.rect_size.x,56)

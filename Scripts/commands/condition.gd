@@ -6,7 +6,8 @@ var c
 
 var size = Vector2(330,88)
 
-signal end(result)
+signal end()
+var ended = {}
 
 func _ready():
 	a = get_node("GridContainer")
@@ -18,9 +19,11 @@ func exe(player):
 	for e in a.get_children():
 		var t = e.name.split(",")
 		if e.pressed and cond(player,Vector2(int(t[0]),int(t[1])),cond):
-			emit_signal("end",true)
+			ended[player.name] = true
+			emit_signal("end")
 			return
-	emit_signal("end",false)
+	ended[player.name] = false
+	emit_signal("end")
 
 func cond(player,dir,what):
 	var pos = player.position + dir*50

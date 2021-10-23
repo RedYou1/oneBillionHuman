@@ -3,6 +3,7 @@ extends Node
 var tree
 var players
 var zoom = 100
+const block = preload("res://Scenes/commands/Block.tscn")
 
 const commands = {
 	"say":preload("res://Scenes/commands/say.tscn"),
@@ -15,6 +16,7 @@ func _ready():
 
 func _on_play_pressed():
 	Tout.vars = {}
+	tree.ended = {}
 	for player in players.get_children():
 		tree.exe(player)
 

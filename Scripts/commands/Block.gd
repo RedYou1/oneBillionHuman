@@ -2,18 +2,25 @@ extends Node2D
 
 var size = Vector2(350,500)
 var scroll
+var playing = false
 
-signal end(result)
+signal end()
+var ended = {}
 
 func _ready():
 	scroll = get_tree().root.get_node("Jeu/HBoxContainer/VBoxContainer/ScrollContainer")
 
 
 func exe(player):
+	playing = true
 	for i in get_children():
 		i.exe(player)
-		yield(i,"end")
-	emit_signal("end",null)
+		while not i.ended.has(player.name):
+			yield(i,"end")
+		i.ended.erase(player.name)
+	ended[player.name] = null
+	playing = false
+	emit_signal("end")
 
 func add(child):
 	add_child(child)
@@ -21,6 +28,9 @@ func add(child):
 	Tout.jeu.tree.calcsize()
 
 func try_add(command):
+	if playing:
+		return null
+	
 	var pos = get_global_mouse_position()
 	
 	if Tout.jeu.tree == self:

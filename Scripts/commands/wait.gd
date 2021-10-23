@@ -1,19 +1,22 @@
 extends Node2D
 
 var time
-var timer
 
 var size = Vector2()
 
-signal end(result)
+signal end()
+var ended = {}
 
 func _ready():
 	time = get_node("LineEdit")
-	timer = get_node("Timer")
 	calcsize()
 
 func exe(player):
+	var timer = player.get_node("Timer")
 	timer.start(float(time.text))
+	yield(timer,"timeout")
+	ended[player.name] = float(time.text)
+	emit_signal("end")
 
 func calcsize():
 	size = Vector2(82+time.rect_size.x,56)
@@ -21,10 +24,6 @@ func calcsize():
 
 func _draw():
 	draw_rect(Rect2(Vector2(),size),Color(0,0,0))
-
-
-func _on_Timer_timeout():
-	emit_signal("end",float(time.text))
 
 
 func _on_LineEdit_text_changed(new_text):
