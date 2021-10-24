@@ -78,7 +78,7 @@ margin_left = 220.0
 margin_right = 326.0
 margin_bottom = 48.0
 text = "PLAYER"
-items = [ "PLAYER", null, false, 0, null ]
+items = [ "PLAYER", null, false, 0, null, "CUBE", null, false, 1, null, "WALL", null, false, 2, null ]
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false

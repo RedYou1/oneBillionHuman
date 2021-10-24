@@ -12,7 +12,7 @@ const commands = {
 
 func _ready():
 	tree = get_node("HBoxContainer/VBoxContainer/ScrollContainer/ViewportContainer/Viewport/block")
-	players = get_node("players")
+	players = get_node("Map/players")
 
 func _on_play_pressed():
 	Tout.vars = {}

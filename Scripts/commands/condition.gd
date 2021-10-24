@@ -17,11 +17,15 @@ func _ready():
 func exe(player):
 	var cond = c.get_item_text(c.get_selected_id())
 	for e in a.get_children():
-		var t = e.name.split(",")
-		if e.pressed and cond(player,Vector2(int(t[0]),int(t[1])),cond):
-			ended[player.name] = true
-			emit_signal("end")
-			return
+		if e.pressed:
+			var t = e.name.split(",")
+			var condv = cond(player,Vector2(int(t[0]),int(t[1])),cond)
+			if b.get_item_text(b.get_selected_id()) == "!=":
+				condv = not condv
+			if condv:
+				ended[player.name] = true
+				emit_signal("end")
+				return
 	ended[player.name] = false
 	emit_signal("end")
 
@@ -29,18 +33,16 @@ func cond(player,dir,what):
 	var pos = player.position + dir*50
 	if what == "PLAYER":
 		for p in Tout.jeu.players.get_children():
-			if eq(p.position,pos):
+			if p.position == pos:
 				return true
-	
-	return false
-
-func eq(acond,bcond):
-	var cond = b.get_item_text(b.get_selected_id())
-	if cond == "==":
-		return acond == bcond
-	elif cond == "!=":
-		return acond != bcond
-	printerr("eq condition script."+cond+" don't exists")
+	elif what == "CUBE":
+		for p in Tout.jeu.get_node("Map/cubes").get_children():
+			if p.position == pos:
+				return true
+	elif what == "WALL":
+		for p in Tout.jeu.get_node("Map/walls").get_children():
+			if p.position == pos:
+				return true
 	return false
 
 func _draw():

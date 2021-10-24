@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Jeu.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/commands/Block.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scenes/commands/while.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/commands/wait.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/wall.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/cube.tscn" type="PackedScene" id=10]
 
 [node name="Jeu" type="Node"]
 script = ExtResource( 1 )
@@ -20,8 +21,62 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 100.0
+margin_bottom = 524.0
+
+[node name="say" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
+margin_right = 100.0
+text = "say"
+
+[node name="if" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
+margin_top = 24.0
+margin_right = 100.0
+margin_bottom = 44.0
+text = "if"
+command = ExtResource( 4 )
+
+[node name="move" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
+margin_top = 48.0
+margin_right = 100.0
+margin_bottom = 68.0
+text = "move"
+command = ExtResource( 6 )
+
+[node name="while" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
+margin_top = 72.0
+margin_right = 100.0
+margin_bottom = 92.0
+text = "while"
+command = ExtResource( 7 )
+
+[node name="wait" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
+margin_top = 96.0
+margin_right = 100.0
+margin_bottom = 116.0
+text = "wait"
+command = ExtResource( 8 )
+
+[node name="erase" type="Button" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 120.0
+margin_right = 100.0
+margin_bottom = 140.0
+text = "erase"
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 144.0
+margin_right = 100.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 100, 0 )
+min_value = 100.0
+max_value = 300.0
+value = 100.0
+rounded = true
+tick_count = 19
+
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-margin_right = 350.0
+margin_left = 104.0
+margin_right = 454.0
 margin_bottom = 524.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -55,79 +110,32 @@ margin_right = 350.0
 margin_bottom = 524.0
 text = "play"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 354.0
-margin_right = 402.0
-margin_bottom = 524.0
+[node name="Map" type="Node" parent="."]
 
-[node name="say" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
-margin_right = 48.0
-text = "say"
+[node name="players" type="Node" parent="Map"]
 
-[node name="if" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
-margin_top = 24.0
-margin_right = 48.0
-margin_bottom = 44.0
-text = "if"
-command = ExtResource( 4 )
-
-[node name="move" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
-margin_top = 48.0
-margin_right = 48.0
-margin_bottom = 68.0
-text = "move"
-command = ExtResource( 6 )
-
-[node name="while" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
-margin_top = 72.0
-margin_right = 48.0
-margin_bottom = 92.0
-text = "while"
-command = ExtResource( 7 )
-
-[node name="wait" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
-margin_top = 96.0
-margin_right = 48.0
-margin_bottom = 116.0
-text = "wait"
-command = ExtResource( 8 )
-
-[node name="erase" type="Button" parent="HBoxContainer/VBoxContainer2"]
-margin_top = 120.0
-margin_right = 48.0
-margin_bottom = 140.0
-text = "erase"
-
-[node name="HSlider" type="HSlider" parent="HBoxContainer"]
-margin_left = 406.0
-margin_right = 506.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 100, 0 )
-min_value = 100.0
-max_value = 300.0
-value = 100.0
-rounded = true
-tick_count = 19
-
-[node name="players" type="Node" parent="."]
-
-[node name="Player" parent="players" instance=ExtResource( 5 )]
+[node name="Player" parent="Map/players" instance=ExtResource( 5 )]
 position = Vector2( 600, 300 )
 
-[node name="Player2" parent="players" instance=ExtResource( 5 )]
+[node name="Player2" parent="Map/players" instance=ExtResource( 5 )]
 position = Vector2( 650, 300 )
 
-[node name="Player3" parent="players" instance=ExtResource( 5 )]
+[node name="Player3" parent="Map/players" instance=ExtResource( 5 )]
 position = Vector2( 600, 350 )
 
-[node name="Player4" parent="players" instance=ExtResource( 5 )]
+[node name="Player4" parent="Map/players" instance=ExtResource( 5 )]
 position = Vector2( 650, 350 )
 
-[node name="map" type="Node" parent="."]
+[node name="walls" type="Node" parent="Map"]
 
-[node name="KinematicBody2D" parent="map" instance=ExtResource( 9 )]
+[node name="wall" parent="Map/walls" instance=ExtResource( 9 )]
 position = Vector2( 650, 200 )
 
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
+[node name="cubes" type="Node" parent="Map"]
+
+[node name="cube" parent="Map/cubes" instance=ExtResource( 10 )]
+position = Vector2( 600, 200 )
+
 [connection signal="pressed" from="HBoxContainer/VBoxContainer2/erase" to="." method="_on_erase_pressed"]
-[connection signal="value_changed" from="HBoxContainer/HSlider" to="." method="_on_HSlider_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainer2/HSlider" to="." method="_on_HSlider_value_changed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
