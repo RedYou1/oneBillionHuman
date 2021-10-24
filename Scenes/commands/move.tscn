@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://font/Roboto-Light.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scripts/commands/move.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/commands/grid.tscn" type="PackedScene" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -21,16 +22,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OptionButton" type="OptionButton" parent="."]
-margin_left = 92.0
-margin_right = 198.0
-margin_bottom = 48.0
-text = "UP"
-align = 1
-items = [ "UP", null, false, 0, null, "DOWN", null, false, 1, null, "LEFT", null, false, 2, null, "RIGHT", null, false, 3, null ]
-selected = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[connection signal="item_selected" from="OptionButton" to="." method="_on_OptionButton_item_selected"]
+[node name="grid" parent="." instance=ExtResource( 3 )]
+margin_left = 106.0
+margin_right = 186.0
+center = false

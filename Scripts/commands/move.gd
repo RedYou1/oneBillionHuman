@@ -1,31 +1,39 @@
 extends Node2D
 
-var say
+var move
 
 var size = Vector2()
+
+var random = RandomNumberGenerator.new()
 
 signal end()
 var ended = {}
 
 func _ready():
-	say = get_node("OptionButton")
+	random.randomize()
+	move = get_node("grid")
 	calcsize()
 
 func exe(player):
-	var t = say.get_item_text(say.get_selected_id())
-	if t == "UP":
-		player.move_and_collide(Vector2(0,-50))
-	elif t == "DOWN":
-		player.move_and_collide(Vector2(0,50))
-	elif t == "LEFT":
-		player.move_and_collide(Vector2(-50,0))
-	elif t == "RIGHT":
-		player.move_and_collide(Vector2(50,0))
-	ended[player.name] = t
+	move.exe(player)
+	while not move.ended.has(player.name):
+		yield(move,"end")
+	var r = move.ended[player.name]
+	move.ended.erase(player.name)
+	
+	if len(r) > 0:
+		var ran = random.randi_range(0,len(r)-1)
+		var dir = r[ran] * 50
+		player.move_and_collide(dir)
+		ended[player.name] = dir
+		emit_signal("end")
+		return
+	
+	ended[player.name] = null
 	emit_signal("end")
 
 func calcsize():
-	size = Vector2(96+say.rect_size.x,56)
+	size = Vector2(110+move.rect_size.x,88)
 	update()
 
 func _draw():
